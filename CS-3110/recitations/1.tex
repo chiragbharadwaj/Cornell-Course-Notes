@@ -1,0 +1,203 @@
+\subsection*{Recitation 1}
+
+\begin{itemize}
+    \item \textsf{OCaml} = FPL
+    \item Functional vs. imperative$\ldots$ differences?
+    \begin{itemize}
+        \item Different \textit{execution model}
+        \item Imperative languages (e.g. \textsf{C}, \textsf{Java}) based on commands that change machine state
+        \item Functional languages (e.g. \textsf{OCaml}, \textsf{Haskell}) based on evaluating expressions to produce values
+    \end{itemize}
+    \item Might seem like a stretch in real world$\ldots$ real programs \textbf{do} things, not \textbf{compute} things
+    \item Later we will learn about \textit{side-effects}, i.e. ``evaluate-then-do/display" model
+    \item Thus \textsf{OCaml} is not a PURE functional language, unlike \textsf{Haskell}, which does NOT allow for side-effects
+    \item \textsf{OCaml} is better-suited than OOP to build large-scale, correct, and understandable expressions
+    \item We will focus on understanding expressions for this recitation
+    \item Assumption: already have \textsf{OCaml} properly installed on a Linux/Unix shell
+    \begin{itemize}
+        \item \textsf{OCaml} \textit{toplevel} is the system to interact with the compiler directly (\textit{read-evaluate-print loop}, or REPL)
+        \item Toplevel allows for some syntactic sugar
+        \item User types in an expression, compiler evaluates and tells resulting value as well as resulting type
+        \item How to access: Type in \texttt{ocaml} at terminal
+        \item CS 3110 specialized VM has enhanced version of \texttt{ocaml} instead: \texttt{utop} (use this)
+        \item How to use: Type in expression (may span several lines with line breaks), and type \texttt{;;} to compile/evaluate
+    \end{itemize}
+    \item Use standard Unix approaches: \texttt{CTRL+C} to clear prompt, \texttt{CTRL+L} to clear shell, etc. (these are called \textit{interrupts} and will reset the prompt state--see CS 3410, CS 4410 for more information), \texttt{cd}, \texttt{pwd}, \texttt{ls}, $\ldots$
+    \item Can use the psuedo-\textsf{C} approach: Put \textsf{OCaml} code into a file (do NOT use \texttt{;;}, this is not part of language syntax$\ldots$ just needed for compiler) and type \texttt{\#use "file";;} to essentially copy the code onto the shell and evaluate the expression or several (compounded) expressions at once
+    \begin{itemize}
+        \item If in a different directory, specify the relative/absolute path and use standard Unix syntax: \texttt{.../file.ml}
+    \end{itemize}
+    \item We will introduce the notion of \textit{expressions} in \textsf{OCaml} by presenting it with a context-free BNF specification (Backus-Naur form)$\ldots$ should be familiar with this from CS 2112, Assignment 4/5
+    \item BNF (counterpart: EBNF, or \textit{extended}-BNF) allows for simple recursive definitions of types/grammar of PL
+    \item BNF = metalanguage; syntax is a set of \textit{derivation rules} (i.e. inductive definitions):
+    \begin{itemize}
+        \item All definitions are of the form \texttt{<definition> ::= <another\_definition> | command}
+        \item \texttt{<*>} refers to a \textit{non-terminal} definition, i.e. must keep parsing until reach a terminal definition
+        \item \texttt{|} refers to a choice, i.e. select ONE of the options (``pipe")
+        \item Compare this with EBNF: \texttt{\textit{definition} $\rightarrow$ \textit{another\_definition} | commmand}
+        \item EBNF is easier to read (\texttt{\textit{non-terminal}} vs. \texttt{terminal}), easier to encode, harder to support in compiler
+        \item We will mix and match syntax with BNF, EBNF, regexes--i.e. HBNF, or \textit{half-extended}-BNF
+    \end{itemize}
+    \item We will slowly build up the \textsf{OCaml} syntax by starting with fundamental building blocks (just a BROAD overview today$\ldots$ some of these topics will be covered again in more depth soon!)
+    \begin{itemize}
+        \item We know about primitive types like integers, floating point numbers, booleans, etc.
+        \item We know we can chain primitive types together to make other types
+        \item We know that there are certain expressions in every language that signify control flow (\texttt{if-else}), etc.
+        \item We know we need some sort of declaration/assignment procedure
+        \item We know we need some functions or some sort of procedure-binding
+        \item We know we need some sense of exception/error handling
+        \item Do we need anything else? Are there other features$\ldots$? Yes! \textit{``There are known knowns; there are things we know we know. We also know there are known unknowns; that is to say we know there are some things we do not know. But there are also unknown unknowns -- the ones we don't know we don't know."}
+    \end{itemize}
+\end{itemize}
+
+\pagebreak
+
+\noindent
+\textbf{Rudimentary Encodings} (part of every language) \\
+\textit{Challenge: Encode HBNF in HBNF.} \\
+\texttt{digit ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9} \\
+\texttt{letter ::= a | b | c | d | e | f | g | h | i | j | k | l | m | n | o | p | q | r | s | t | u | v | w | x | y | z | A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P | Q | R | S | T | U | V | W | X | Y | Z} \\
+\texttt{special ::= !\ | @ | \# | \$ | \% | \^{} | \& | * | ( | ) | [ | ] | \{ | \} | :\ | ; | ` | ' | " | , | .\ | ?\ | / | < | > | - | \_ | + | = | | | \url{ \ } | \~{} | \textvisiblespace{}} \\
+\texttt{token ::= digit | letter | special} \\
+
+\noindent
+\textbf{Primitive Types} \\
+\texttt{int ::= digit digit*} \\
+\texttt{float ::= (int int*).int*} \\
+\texttt{boolean ::= true | false} \\
+\texttt{char ::= `token'} \\
+\texttt{string ::= "token*"} \\
+
+\noindent
+\textbf{Operator Types} \\
+\texttt{neg ::= - | not} \\
+\texttt{op ::= + | - | * | / | +.\ | -.\ | *.\ | /.\ | mod | < | > | <= | >= | = | \^{}} \\
+
+\noindent
+\textbf{Commands} (this will change/be added to as time goes on) \\
+\texttt{value ::= int | float | boolean | char | string} \\
+\texttt{expr ::= value | neg expr | expr1 op expr2 | (expr) | \lstinline{if expr1 then expr2 else expr3}} \\
+
+\noindent
+\begin{itemize}
+    \item Type-checking is an important feature of \textsf{OCaml}
+    \item Let us review the types of each of these operators and their respective operands
+    \item Can view operators as ``functions" that take in LHS, return RHS (important way to think)
+    \begin{table}[h]
+    \caption{Unary operators}
+    \centering
+    {\tt
+        \begin{tabular}{cc}
+        neg & Type \\
+        \hline
+        \multirow{2}{*}{-} & int -> int \\
+                           & float -> float \\
+        not                & boolean -> boolean \\
+        \hline
+        \end{tabular}
+    }
+    \end{table}
+    
+    \begin{table}[h]
+    \caption{Binary operators}
+    \centering
+    {\tt
+        \begin{tabular}{cc}
+        op & Type \\
+        \hline
+        +, -, *, /                       & int -> int -> int \\
+        +., -., *., /.                   & float -> float -> float \\
+        mod                              & int -> int -> int \\
+        \multirow{2}{*}{<, >, <=, >=, =} & int -> int -> bool \\
+                                         & float -> float -> bool \\
+        \^{}                             & string -> string -> string \\
+        \hline
+        \end{tabular}
+    }
+    \end{table}
+    \item The binary operators (\texttt{op}) seem to have an unusual type, even though they are functions that take in two inputs and return a single output
+    \begin{itemize}
+        \item There are separate operators/functions for \texttt{int}s vs. \texttt{float}s
+        \item Unary operators are \textit{prefix} operators, while binary operators are \textit{infix} operators
+        \item \texttt{=} is for checking equality, NOT assignment (there is no such thing in FP)
+    \end{itemize}
+    \item Functions can actually only take in one argument, as we will learn in \textit{lambda calculus}$\ldots$ this is a \textit{curried} form
+    \item More on that later! Way to view this correctly is to consider \textit{operator associativity} for \texttt{->}
+    \begin{itemize}
+        \item All operators are either \textit{unassociative} (cannot be chained), \textit{associative} (can be grouped any way), \textit{left-associative} (must fold/group to the left), or \textit{right-associative} (must fold/group to the right)
+        \item For example, addition is associative (e.g. $3 + 4 + 5 = (3 + 4) + 5 = 3 + (4 + 5)$)
+        \item No common operator has \textit{conditional} associativity, i.e. addition, subtraction, multiplication, division are all fully associative and left/right-folding is irrelevant
+        \item But \texttt{->} is right-associative, so must be grouped to the right
+        \item Thus \texttt{type1 -> type2 -> type3} is actually \texttt{type1 -> (type2 -> type3)}, and it takes in \texttt{type1} and returns a new function that takes in \texttt{type2} and returns \texttt{type3} (i.e. functions take in at most ONE input)
+        \item Syntactic sugar: \texttt{(type1, type2) -> type3}
+        \item We will talk about this more in a few lectures (there's a special reason!)
+    \end{itemize}
+    \item Now we can determine the types of expressions; main rule is: \textbf{The type of the expression is the type of the result.}
+    \begin{itemize}
+        \item Style of \textit{type annotations}: \texttt{expr:type} (this can be encoded in \textsf{OCaml} as well, and is a GOOD IDEA)
+        \item e.g. \texttt{function arg1 arg2} vs. \texttt{function ((arg1:type1) (arg2:type2)):return\_type} (more explcit -- otherwise \textsf{OCaml} does \textit{type inference} and could cause compile-time errors)
+        \item Let's outline the rules for type inference:
+        \item If \texttt{neg:(type1 -> type2)} and \texttt{expr:type1}, then \texttt{(neg expr):type2}
+        \item If \texttt{op:(type1 -> type2 -> type3)}, \texttt{expr1:type1}, and \texttt{expr2:type2}, then \texttt{(expr1 op expr2):type3}.
+        \item If \texttt{expr1:boolean}, \texttt{expr2:a'}, and \texttt{expr3:a'}, then \lstinline{(if expr1 then expr2 else expr3)}\texttt{:a'}
+        \begin{itemize}
+            \item Here, \texttt{a'} stands for a \textit{generic}, or \textit{polymorphic} type (can be anything)
+            \item Think about why we need \texttt{expr2} and \texttt{expr3} to have same type: Either branch could be taken, instruction set architecture needs to verify that program could still continue in all possible cases regardless of which branch is actually taken (see CS 3410 notes)
+            \item Unlike \textsf{Java} or \textsf{C}, \texttt{if-then-else} is an EXPRESSION, like the \texttt{?$\colon$} \textit{tertiary} operator in those languages
+        \end{itemize}
+        \item If an expression does NOT satisfy these three rules, then that expression does not have an inferrable type, so a compile-time error occurs
+        \item i.e. inconsistently-typed arguments = invalid program = compile-time error (no run-time errors, i.e. \textsf{OCaml} is considered a \textit{strongly-typed} language with \textit{static inference} capabilities/semantics)
+        \item Note: invalid program $\neq$ generic type$\ldots$ generic type can still be inferred to be such
+        \item Best practice is to ALWAYS type-annotate arguments to avoid clashes (enforces a strong type check)
+    \end{itemize}
+    \item We still need to discuss how to declare state, i.e. bind values to names (variables)
+    \item A \textit{declaration} is of the form \lstinline{let name = expr}, so we can refer to expressions by \texttt{name} as well
+    \begin{itemize}
+        \item Scope: Lasts until another declaration with same name occurs and \textit{shadows} the first one
+        \item Can also achieve local scope by doing local-binding, i.e. declarations of the form \lstinline{let decl in expr}
+        \item Caveat: \lstinline{let}-bindings done at toplevel, or REPL, last for rest of program, i.e. it is essentially equivalent to declaring something of the form \lstinline{let name = expr in (* rest of program *)}
+        \item Here, the declaration \texttt{decl} is evaluated, then the expression \texttt{expr} is evaluated with the bound \texttt{decl}
+        \item Of course, the type of \lstinline{let decl in expr} is the type of \texttt{expr}, because \textbf{the type of the expression is the type of the result}
+        \item This is just the active way of rewriting passive mathematics: \texttt{evaluate expr(x), where x = $\ldots$}
+    \end{itemize}
+    \item To reuse expressions (abstraction; more on this later), we need to factor out common behavior into a \textit{function}
+    \item Functions are of the form \lstinline{let name args... = expr} as well! Here, \texttt{expr} is called the \textit{body} of the function
+    \item What does this reveal? In \textsf{OCaml} and FP, functions are \textit{first-class citizens}, i.e. they are declared the same way values are declared and can be passed just like values are$\ldots$ FUNCTIONS ARE VALUES in FP
+    \item Proper type annotation: \lstinline{let name((x1:type1)(x2:type2)...(xn:typen)):return_type = expr}
+    \item An example: \lstinline{let square x = x*x}, or \lstinline{let square (x:int) : int = x*x} (looks like math, not \textsf{Java} garbage)
+    \item The type of \texttt{square} is \texttt{int -> int} (takes in an integer, returns an integer)
+    \item In general, a function \lstinline{let name((x1:type1)(x2:type2)...(xn:typen)):return_type} has a compound type: \texttt{(type1 * type2 * ... * typen -> return\_type}
+    \item There are also \textit{recursive} functions that call themselves$\ldots$ need an extra \texttt{rec} declaration
+    \item e.g. \lstinline{let rec name((x1:type1)(x2:type2)...(xn:typen)):return_type} MUST call itself at least once
+    \item How to check to see if a function application \texttt{f((x1:t1)(x2:t2)$\ldots$(xm:tm)):t} is done correctly? Need to satisfy some rules, in order:
+    \begin{enumerate}
+        \item Type-checking: \texttt{f} has type \texttt{(t1 * $\ldots$ * tn) -> t}
+        \item Partial-application: $m \leq n$ (we will learn about this later; for now, let's use the stronger condition $m = n$)
+    \end{enumerate}
+    \item So in our example: \texttt{square 10} will compile, but \texttt{square true} will not, and neither will \texttt{square 10 20}, etc.
+    \item Last thing for today: A small introduction to locally-bound functions (i.e. \textit{inner} functions, which is not the same thing as \textit{anonymous} functions, or \textit{lambdas} -- more later, as usual)
+    \begin{itemize}
+        \item Possible in \textsf{Pascal}, \textsf{Haskell}, etc., but NOT in \textsf{Java}, \textsf{C}, etc.
+        \begin{lstlisting}
+        (* Cleaner version of the code *)
+        let fourth y = 
+            let square x = x*x in square(square y)
+        
+        (* Excessive, but obvious that it type-checks *)
+        let fourth (y:int) : int =
+            let square (x:int) : int = x*x in square(square y)
+        \end{lstlisting}
+        \item In either case, notice that there is a CONSERVATIVE use of parentheses, unlike \textsf{C}-family of languages
+        \item We are building bigger functions from smaller ones
+        \item Calling \texttt{square} outside of the scope of \texttt{fourth} gives a compile-time error due to scope
+        \item This is abstraction, since we are REUSING building blocks
+        \item This is 3110! (i.e what FP is all about -- abstraction and reusing modules)
+    \end{itemize}
+    \item Let's label the extensions to the expression syntax in our HBNF notation (\texttt{fun\_name} is function's name)
+\end{itemize}
+
+\noindent
+\textbf{Commands} (will be updated during next lecture$\ldots$) \\
+\texttt{value ::= int | float | boolean | char | string} \\
+\texttt{decl ::= \lstinline{let fun_name = expr} | \lstinline{let fun_name arg1...argn = expr} | \lstinline{let rec name arg1...argn = expr}} \\
+\texttt{expr ::= value | neg expr | expr1 op expr2 | (expr) | \lstinline{if expr1 then expr2 else expr3} | name | \lstinline{let decl in expr} | fun\_name expr1$\ldots$exprm} \\
