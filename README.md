@@ -16,5 +16,5 @@ These are the course notes that I have processed into `LaTeX` so far from a hand
 
 <small><small> These notes and this repository is licensed under the Creative-Commons-Noncommercial-Attribution License. Some rights reserved. This means that this information is publicly viewable by all, editable locally by all, and allowed to be reuploaded elsewhere by all, as long as the original author is attributed and the information is NOT used for commercial purposes.
 
-Copyright &copy; 2013-2015 Chirag Bharadwaj, Class of 2017.
+Copyright &copy; 2013-2015 Chirag Bharadwaj, Class of 2017
 </small></small>
