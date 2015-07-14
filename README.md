@@ -12,6 +12,8 @@ All diagrams, technical and otherwise, were rendered by hand using a section of 
 These are the course notes that I have processed into `LaTeX` so far from a handwritten format:
   * `CS 3110: Functional Programming and Data Structures`
 
+---
+
 <small><small> These notes and this repository is licensed under the Creative-Commons-Noncommercial-Attribution License. Some rights reserved. This means that this information is publicly viewable by all, editable locally by all, and allowed to be reuploaded elsewhere by all, as long as the original author is attributed and the information is NOT used for commercial purposes.
 
 Copyright &copy; 2013-2015 Chirag Bharadwaj, Class of 2017.
