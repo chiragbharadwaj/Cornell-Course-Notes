@@ -1,0 +1,328 @@
+\section*{Lecture 1}
+
+\begin{itemize}
+    \item 15 weeks left to finish computer programming education (computer SCIENCE $\gg$ just programming)
+    \item Programming \textit{}{well} = hard problem (but is it NP-complete?)
+    \item High variance in industry professionals' productivity due to lack of streamlined education (10x)
+    \item CS 3110 goals: hard work, patience, open mind, BETTER PROGRAMMING
+    \item How the $*110$ series of CS classes work: (\textit{breadth} in PL)
+    \begin{itemize}
+        \item CS 1110: Coding for your professor
+        \item CS 2110: Coding for yourself
+        \item CS 2112: Coding for yourself/your classmates (i.e. \lstinline{Some} others, will laugh later$\ldots$)
+        \begin{itemize}
+            \item Honors 2110, more work for sure
+        \end{itemize}
+        \item CS 3110: Coding for others
+        \begin{itemize}
+            \item Emphasis: \textit{design}, \textit{performance}, \textit{correctness}
+            \item Collaboration tools and techniques
+            \item Writing code for/with other people
+        \end{itemize}
+        \item CS 4110: Coding for mathematicians
+        \item CS 6110: Coding for purists (CS 4110 on steroids) with naivet\'{e}
+        \item CS 7110: Coding for purists in the modern, concurrent world
+        \begin{itemize}
+            \item Now called CS 6112 (``Honors CS 6110"? No. See why:)
+        \end{itemize}
+    \end{itemize}
+    \item About the $611*$ series of CS classes: (\textit{depth} in PL)
+    \begin{itemize}
+        \item CS 6110: Advanced Programming Languages and Logics
+        \item CS 6112: Foundations of Concurrency
+        \item CS 6113: Language-Based Security
+        \item CS 6114: Network Programming Languages
+        \item CS 6115: Certified Software Systems
+        \item CS 6116: CS 6110 Practicum
+        \item CS 6117: Category Theory for Computer Scientists
+        \item CS 6118: Types and Semantics
+        \item CS 6111 and CS 6119 TBD (stay tuned through 2016)
+        \item NO other school offers such a deep series in PL (not Princeton, not MIT, etc.)
+        \item You can't take them all, unfortunately (not enough time!)
+        \item Do a MS/PhD$\ldots$
+    \end{itemize}
+    \item Back to CS 3110 goals. How to achieve? We need methodologies/structure:
+    \begin{enumerate}
+        \item Functional programming (\textsf{OCaml})
+        \begin{itemize}
+            \item Challenge: Think OUTSIDE of \textsf{Java}/\textsf{Python}/\textsf{C} \textit{imperative} family of languages
+            \item Programming transcends the PL of choice
+            \begin{itemize}
+                \item All languages have same features: \textit{syntax}, \textit{semantics}, \textit{idioms}, \textit{tools}
+            \end{itemize}
+        \end{itemize}
+        \item Data structures and modern programming paradigms
+        \begin{itemize}
+            \item Challenge: Think about \textit{abstraction}
+            \item Rigorously analyze performance and correctness (e.g. pre-CS 4820)
+            \item Learn how to write \textit{concurrent} programs
+            \item Learn how to write \textit{scalable} programs
+        \end{itemize}
+        \item Software engineering
+        \begin{itemize}
+            \item Experience with modular design, specification, integrated testing, source control, code reviews
+            \begin{itemize}
+                \item i.e. CS 2112 part II
+            \end{itemize}
+            \item Exposure to tools used in the real world (e.g. Linux, \texttt{git})
+        \end{itemize}
+    \end{enumerate}
+    \item Roadblocks:
+    \begin{itemize}
+        \item Programming $\neq$ \textsf{Java}
+        \begin{itemize}
+            \item Let go of Java!
+            \item Paradigm won't help here$\ldots$ we'll talk about OOP towards the end
+        \end{itemize}
+        \item Programming $\neq$ hacking until desired functionality achieved
+        \begin{itemize}
+            \item Professional: disciplined work habits
+            \item THINK first -- there are an infinite number of incorrect programs!
+            \item All code must be: maintainable, reliable, provable, efficient, readable, testable (\textsf{MR. PERT})
+        \end{itemize}
+    \end{itemize}
+    \item What is \textsf{OCaml}?
+    \begin{itemize}
+        \item Functional programming language (FPL)
+        \item Objective Caml (Categorically-Abstract \textsf{ML})
+        \item \textsf{ML} is a family of languages, originally ``meta-language" for tools
+        \item Take CS 6117 for more on categories
+    \end{itemize}
+    \item Why \textsf{OCaml}?
+    \begin{itemize}
+        \item Immutable programming
+        \begin{itemize}
+            \item Variables cannot be altered -- easier to reason about programs
+        \end{itemize}
+        \item Algebraic datatypes, pattern matching
+        \begin{itemize}
+            \item Defining/manipulating complex data structures is easy to express
+        \end{itemize}
+        \item First-class functions
+        \begin{itemize}
+            \item Functions passed around as values, like variables
+        \end{itemize}
+        \item Static type-checking
+        \begin{itemize}
+            \item No run-time errors (only \textit{exceptions}, like in \textsf{Java}, \textsf{C}, etc.)
+        \end{itemize}
+        \item Automatic type inference
+        \begin{itemize}
+            \item No type-based burden (unlike in \textsf{Java}, \textsf{C}, etc.)
+        \end{itemize}
+        \item Parametric polymorphism
+        \begin{itemize}
+            \item Enables abstraction to be used across many data types
+        \end{itemize}
+        \item Garbage collection
+        \begin{itemize}
+            \item Automated memory management -- no leaks, \texttt{valgrind}, etc.
+        \end{itemize}
+    \end{itemize}
+    \item What probably struck out to you was ``immutable abstraction"
+    \item Why immutability?
+    \begin{itemize}
+        \item Imperative = mutable programming
+        \begin{itemize}
+        \item Commands specify computation by destructively changing \textit{state}
+        \java
+        \begin{lstlisting}
+            x = x + 1; // Modifies x
+            a[i] = 42; // Destroys the previous value
+            p.next = p.next.next; // Original (|Node|) lost
+        \end{lstlisting}
+        \item Functions/methods have side effects
+        \begin{lstlisting}
+            int wheels(Vehicle v) {
+                v.size++; // Modifies v.size
+                return v.numWheels;
+            }
+        \end{lstlisting}
+        \ocaml
+        \item Need complex ``patterns" like \textsf{Builder} model, \textsf{AbstractFactory} pattern, etc. to avoid changing state
+        \item Claims loose coupling, actually tightly coupled modules relative to FP
+        \end{itemize}
+        \item Mutable programming not well-suited to modern computing standards!
+        \begin{itemize}
+            \item Fantasy of mutability:
+            \begin{itemize}
+                \item There is only one state
+                \item The computer does one thing at a time
+            \end{itemize}
+            \item Reality of world:
+            \begin{itemize}
+                \item There is no single state
+                \item Programs have many threads, spread across many cores, spread across many processors, spread across many computers, spread across many networks$\ldots$ each with its own view of memory (technically not true -- computers use \textit{time-sharing} of resources, see CS 3410 for more details)
+                \item There is no single program (robust applications invoke 3-4 programs simultaneously)
+            \end{itemize}
+        \end{itemize}
+        \item Functional = immutable programming
+        \begin{itemize}
+            \item Expressions specify computations without destroying state
+            \begin{itemize}
+                \item Variables never change value
+                \item Functions never have side effects
+            \end{itemize}
+            \item Effects on reality of world:
+            \begin{itemize}
+                \item No need to even think about state
+                \item Powerful way to build concurrent programs
+            \end{itemize}
+        \end{itemize}
+    \end{itemize}
+    \item FPL = higher level of abstraction, easier to develop robust pieces of software (you'll see soon)
+    \item FP predicts the future! These concepts were once dismissed as ``too pedantic in nature":
+    \begin{itemize}
+        \item Garbage collection
+        \begin{itemize}
+            \item \textsf{Java} (1995), \textsf{LISP} (1958)
+        \end{itemize}
+        \item Generics/parametric polymorphism
+        \begin{itemize}
+            \item \textsf{Java 5} (2004), \textsf{ML} (1990)
+        \end{itemize}
+        \item Higher-order functions
+        \begin{itemize}
+            \item \textsf{Java 8} (2014), \textsf{LISP} (1958)
+        \end{itemize}
+        \item Type inference
+        \begin{itemize}
+            \item \textsf{Java 8} (2014), \textsf{ML} (1990)
+        \end{itemize}
+    \end{itemize}
+    \item FPL matters in the real world:
+    \begin{itemize}
+        \item \textsf{F\#} (Microsoft framework)
+        \item \textsf{Scala} (Twitter, LinkedIn, FourSquare, etc.)
+        \item \textsf{Java 8} (being adopted everywhere)
+        \item \textsf{Haskell} (small companies, mathematical programmers)
+        \item \textsf{Erlang} (Facebook chat and other distributed systems -- see CS 3410/4410)
+        \item \textsf{OCaml} (Jane Street)
+    \end{itemize}
+    \item Let's examine samples of \textsf{Java} vs. \textsf{Ocaml} in standard contexts (these are PREVIEWS, syntax isn't obvious)
+    \item The sum of squares of integers:
+    \begin{itemize}
+    \item A mutable version in \textsf{Java}:
+    \java
+    \begin{lstlisting}
+        // Yields (|$\sum_{i=1}^{n} i^2$|)
+        int sumSquares(int n) {
+            int sum = 0;
+            for (int k = 1; k <= n; k++) {
+                sum = sum + k*k; // Destroys state
+            }
+            return sum;
+        }
+    \end{lstlisting}
+    \item An immutable version (contrived) in \textsf{Java}:
+    \begin{lstlisting}
+        // Yields (|$\sum_{i=1}^{n} i^2$|)
+        int sumSquares(int n) {
+            if (n == 0) {
+                return 0;
+            } else {
+                return n*n + sumSquares(n-1);
+            }
+            // No state to destroy, i.e. all recursive calls
+        }
+    \end{lstlisting}
+    \item The \textsf{OCaml} version is like the ``inefficient" \textsf{Java} one except cleaner, more compact, and reads like math:
+    \ocaml
+    \begin{lstlisting}
+        (* Yields (|$\sum_{i=1}^{n} i^2$|) *)
+        let rec sum_squares n =
+            if n = 0 then 0
+            else n*n + sum_squares (n-1)
+    \end{lstlisting}
+    \end{itemize}
+    \item Reversing a linked-list:
+    \begin{itemize}
+    \item Classic overly-verbose \textsf{Java}:
+    \java
+    \begin{lstlisting}
+        // Reverses a linked-list given the head (|Node|) to the linked-list
+        Node<T> reverse(Node<T> list) {
+            Node<T> reversedList = null;
+            while (list != null) {
+                Node<T> temp = list.next;
+                list.next = reversedList;
+                reversedList = list;
+                list = temp;
+            }
+            return reversedList;
+        }
+    \end{lstlisting}
+    \item Utilizing pattern-matching in \textsf{OCaml} (e.g. see \textsf{Java 8}):
+    \ocaml
+    \begin{lstlisting}
+        (* Reversing a list with elegance and recursion *)
+        let rec reverse list =
+            match list with
+            | [] -> []
+            | head :: body -> List.append (reverse body) head
+    \end{lstlisting}
+    \end{itemize}
+    \item Implementing quicksort:
+    \begin{itemize}
+    \item A fairly efficient version in \textsf{Java}:
+    \java
+    \begin{lstlisting}
+        
+        /** This algorithm assumes that (|T|) implements (|Comparable|). */
+        
+        /** Sorts (|list[l...r)|) */
+        T[] quicksort(T[] list, int l, int r) {
+            if (l == r-1) return; // Base case: already sorted
+            int index = partition(list, l, r);
+            quicksort(list, l, index);
+            quicksort(list, index, r);
+            return list;
+        }
+            
+        /**
+         * Partition list into (|list[l...index)|) and (|list[index...r)|), where
+         * (|$l<index<r$|), and all elements in (|list[l...index)|) are less than
+         * or equal to all elements in (|list[index...r)|).
+         *
+         * Requires: (|$0 \leq l$|), (|$r \leq $ list.length|), and (|$r-l \geq 2$|).
+         */
+        int partition(T[] list, int l, int r) {
+            T pivot = list[l]; // Better: swap list[l] with random element first
+            int i = l, j = r;
+            do j--; while (list[j].compareTo(pivot) > 0);
+            while (i < j) {
+                swap(list[i], list[j]); // See (|\textsf{Java 8}|) for this
+                do i++; while (list[i].compareTo(pivot) < 0);
+                do j--; while (list[j].compareTo(pivot) > 0);
+            }
+            return j+1;
+        }
+    \end{lstlisting}
+    \item As expected, a very quick way to do it in \textsf{OCaml}:
+    \ocaml
+    \begin{lstlisting}
+        (* Returns list, sorted according to the partial order (|$\leq$|).
+         * Poor pivot choice, as in the (|\textsf{Java}|) example *)
+        let rec quicksort list = 
+            match list with
+            | [] -> []
+            | pivot :: rest ->
+                let (left, right) = partition ((<=) pivot) rest in
+                List.append (List.append (quicksort left) [pivot]) (quicksort right) 
+    \end{lstlisting}
+    \end{itemize}
+    \item Generally interesting things to note:
+    \begin{itemize}
+        \item \textsf{OCaml} seems to have good type inference
+        \item \textsf{OCaml} handles polymorphism well/almost invisibly
+        \item Pattern-matching is useful and quick
+        \item There is a mathematical structure of organization, shows in syntax
+        \item No pesky objects and hierarchies getting in the way of calling functions
+        \begin{itemize}
+            \item Everything is a function, no loops?!
+            \item Some \textsf{JavaScript}-esque appearance/behavior
+        \end{itemize}
+        \item \textsf{OCaml} syntax is mostly succinct/brief
+    \end{itemize}
+    \item We will learn more about this syntax/way of thinking next time$\ldots$
+\end{itemize}
