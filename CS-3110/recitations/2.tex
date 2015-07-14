@@ -68,6 +68,55 @@
         \item \texttt{(let x = e1 in e2) \{v/x\} ::= let x = e1\{v/x\} in e2}
         \item \texttt{(let y = e1 in e2) \{v/x\} ::= let y = e1\{v/x\} in e2\{v/x\}} if \texttt{x} is not equal to \texttt{y}
     \end{enumerate}
-    \item Let's move onto \textsf{OCaml} evaluation; recall that every \textsf{OCaml} program is an expression
-    \item A
+    \item Let's move onto \textsf{OCaml} evaluation rules; recall that every \textsf{OCaml} program is an expression:
+    \begin{enumerate}
+        \item Double expression operated reduction:
+        \begin{lstlisting}
+        e1 op e2 --> e1' op e2
+           (|if|) e1 --> e1'
+        \end{lstlisting}
+        \item Single expression operated reduction:
+        \begin{lstlisting}
+        v1 op e2 --> v1 op e2'
+           (|if|) e2 --> e2'
+        \end{lstlisting}
+        \item Numerical operated reduction:
+        \begin{lstlisting}
+        n1 op n2 --> n3
+               (|where|) n3 is the binop result (|of|) n1 (|and|) n2
+        \end{lstlisting}
+        \item Triple expression bound reduction:
+        \begin{lstlisting}
+        if e1 then e2 else e3 --> if e1' then e2 else e3
+                        (|\hspace{2.5pt}if|) e1 --> e1'
+        \end{lstlisting}
+        \item True branched reduction:
+        \begin{lstlisting}
+        if true  then e2 else e3 --> e2
+        \end{lstlisting}
+        \item False branched reduction:
+        \begin{lstlisting}
+        if false then e2 else e3 --> e3
+        \end{lstlisting}
+        \item Double expression bound reduction:
+        \begin{lstlisting}
+        let x = e1 in e2 --> let x = e1' in e2
+                   (|\hspace{1pt}if|) e1 --> e1'
+        \end{lstlisting}
+        \item Double expression reduction:
+        \begin{lstlisting}
+        e1 e2 --> e1' e2
+        (|if|) e1 --> e1'
+        \end{lstlisting}
+        \item Single expression reduction:
+        \begin{lstlisting}
+         v e2 --> v e2'
+        (|if|) e2 --> e2'
+        \end{lstlisting}
+    \end{enumerate}
+    \item It may seem like there are other ones, but they can mostly be derived from these with the substitution model and expression-level chaining
+    \item Once the entire program is fully-reduced to a terminal value, execution is completed (and the resulting displayed type on the toplevel, or REPL, may very well be extremely compounded and complex)
+    \item We need to extend our HBNF definitions table now, since we've added a lot of extra terms (seems like it will never be complete)
+    \item Will modify the HBNF definitions list after next lecture, once we cover more (i.e. alternative declarations, functions, etc.)
+    \item Need to remember key point: Substitution model and evaluation rules are used in conjunction to analyze and reduce a program to a final value with a clear, discernable type (note, again, that this STILL allows for generic types, which have been determined to be such)
 \end{itemize}
