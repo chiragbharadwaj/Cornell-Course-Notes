@@ -23,7 +23,7 @@ These are the course notes that I have processed into `LaTeX` so far from a hand
 
 ---
 
-<small><small> These notes and this repository is licensed under the [Creative Commons 4.0 License](http://creativecommons.org/licenses/by/4.0/). Some rights reserved. This means that this information is publicly viewable by all, editable locally by all, and allowed to be reuploaded elsewhere by all, as long as the original author is attributed. Please try to avoid using it for commercial purposes if you can. :)
+<small><small> These notes and this repository is licensed under the [Creative Commons Attribution-Noncommercial-ShareAlike 3.0 License](https://creativecommons.org/licenses/by-nc-sa/3.0/us/). Some rights reserved. This means that this information is publicly viewable by all, editable locally by all, and allowed to be reuploaded elsewhere by all, as long as the original author(s) is(are) attributed. You may not use ANY part of this repository for commercial purposes.
 
 Copyright &copy; 2013-2015 Chirag Bharadwaj, Class of 2017
 </small></small>
