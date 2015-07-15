@@ -27,7 +27,7 @@ Past contributors:
 
 *Please actively ensure that the professor whose course your notes are based on is completely okay with you publishing a detailed version of his/her/its course content online for non-commercial purposes. Notes that do not have express written permission to be published here WILL be taken down to comply with Cornell's Code of Academic Integrity, unfortunately.*
 
-<small><small> These notes and this repository is licensed under the [Creative Commons Attribution-Noncommercial-ShareAlike 3.0 License](https://creativecommons.org/licenses/by-nc-sa/3.0/us/). Some rights reserved. This means that this information is publicly viewable by all, editable locally by all, and allowed to be reuploaded elsewhere by all, as long as the original author(s) is(are) attributed. You may not use ANY part of this repository for commercial purposes.
+<small><small> These notes and this repository are licensed under the [Creative Commons Attribution-Noncommercial-ShareAlike 3.0 License](https://creativecommons.org/licenses/by-nc-sa/3.0/us/). Some rights reserved. This means that this information is publicly viewable by all, editable locally by all, and allowed to be reuploaded elsewhere by all, as long as the original author(s) is(are) attributed. You may not use ANY part of this repository for commercial purposes.
 
 Copyright &copy; 2013-2015 Chirag Bharadwaj, Class of 2017
 </small></small>
