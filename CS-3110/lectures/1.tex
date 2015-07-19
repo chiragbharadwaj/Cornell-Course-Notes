@@ -291,7 +291,7 @@
             int i = l, j = r;
             do j--; while (list[j].compareTo(pivot) > 0);
             while (i < j) {
-                swap(list[i], list[j]); // See (|\textsf{Java 8}|) for this
+                swap(list[i], list[j]); // See (|Java 8|) for this
                 do i++; while (list[i].compareTo(pivot) < 0);
                 do j--; while (list[j].compareTo(pivot) > 0);
             }
@@ -302,7 +302,7 @@
     \ocaml
     \begin{lstlisting}
         (* Returns list, sorted according to the partial order (|$\leq$|).
-         * Poor pivot choice, as in the (|\textsf{Java}|) example *)
+         * Poor pivot choice, as in the (|Java|) example *)
         let rec quicksort list = 
             match list with
             | [] -> []
